@@ -66,7 +66,7 @@ legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"
 
 ![](figures/histogram_1-1.png)<!-- -->
 
-**Answer : **  
+**Answer** :  
 - Mean = 9354    
 - Median = 10395
 
@@ -195,7 +195,7 @@ legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"
 
 ![](figures/imputed_histo-1.png)<!-- -->
 
-**Answer : **  
+**Answer** :  
 - Mean = 10766 (compared to 9354)    
 - Median = 10762 (compared to 10395)
 
@@ -252,4 +252,4 @@ xyplot(steps ~ interval | wday,
 ![](figures/wdpattern-1.png)<!-- -->
   
 
-Note : weekdays and weekend activity have the same overall pattern, a little bit more steps during and along the weekends
+**Note** : weekdays and weekend activity have the same overall pattern, a little bit more steps during and along the weekends

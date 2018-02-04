@@ -66,7 +66,7 @@ abline(v=byday.md, col="gold", lwd=2)
 legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"), bty="n")
 ```
 
-**Answer : **  
+**Answer** :  
 - Mean = `r round(byday.mn)`    
 - Median = `r round(byday.md)`
 
@@ -154,7 +154,7 @@ legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"
 
 ```
 
-**Answer : **  
+**Answer** :  
 - Mean = `r round(byday.imp.mn)` (compared to `r round(byday.mn)`)    
 - Median = `r round(byday.imp.md)` (compared to `r round(byday.md)`)
 
@@ -204,4 +204,4 @@ xyplot(steps ~ interval | wday,
 ```
   
 
-Note : weekdays and weekend activity have the same overall pattern, a little bit more steps during and along the weekends
+**Note** : weekdays and weekend activity have the same overall pattern, a little bit more steps during and along the weekends
