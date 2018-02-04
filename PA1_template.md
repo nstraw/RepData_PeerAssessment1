@@ -5,10 +5,7 @@ output:
     keep_md: true
 ---
 
-```{r setoptions, echo=FALSE}
-options(scipen=20)
-#opts_chunk$set(echo=TRUE, result="asis")
-```
+
 
 
 Load required library :  
@@ -16,7 +13,8 @@ Load required library :
 - `dplyr` : data transformation  
 - `lattice` : plotting with panels  
 
-```{r message=FALSE}
+
+```r
 library(lubridate)
 library(dplyr)
 library(lattice)
@@ -29,7 +27,8 @@ This section execute the following steps :
 2. Load extracted CSV file into dataframe, keeping string "as is"  
 3. Convert `date` field from character to class `Date` using `lubridate` package  
 
-```{r}
+
+```r
 unzip("activity.zip")
 data <- read.csv("activity.csv", as.is=T)
 data$date <- ymd(data$date)
@@ -40,7 +39,8 @@ data$date <- ymd(data$date)
 
 First : aggregate total number of steps by day
 
-```{r}
+
+```r
 byday <- data %>% 
          group_by(date) %>% 
          summarise(steps=sum(steps, na.rm=T))
@@ -49,7 +49,8 @@ byday <- data %>%
 
 Then : plot result using base graphics method and compute `mean` and `median` values
 
-```{r}
+
+```r
 with(byday, 
      hist(steps, col="lightblue3", border="ivory4",
           main="Histogram of the total number of steps taken each day",
@@ -63,15 +64,18 @@ abline(v=byday.md, col="gold", lwd=2)
 legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"), bty="n")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
 **Answer : **  
-- Mean = `r round(byday.mn)`    
-- Median = `r round(byday.md)`
+- Mean = 9354    
+- Median = 10395
 
 ## What is the average daily activity pattern?
 
 First : aggregate average number of steps by interval and compute the maximum value
 
-```{r}
+
+```r
 byitv <- data %>% 
          group_by(interval) %>% 
          summarise(steps=mean(steps, na.rm=T))
@@ -81,7 +85,8 @@ max <- byitv[which.max(byitv$steps), c("interval", "steps")]
 
 Then : plot the result using base graphics method
 
-```{r}
+
+```r
 with(byitv, 
      plot(interval, steps, type="l",
           main="Time-series plot : Average daily activity pattern",
@@ -94,30 +99,66 @@ points(max$interval, max$steps, pch=19, col="red")
 text(max$interval+80, max$steps, labels=round(max$steps), col="red")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?  
   
 **Answer** :   
-Interval with maximum number of steps => **`r max$interval`** (number of steps=**`r round(max$steps)`**)
+Interval with maximum number of steps => **835** (number of steps=**206**)
 
 ## Imputing missing values
 
 Missing values in the dataset :
 
-```{r}
+
+```r
 # total NAs in dataset
 sum(is.na(data))
+```
+
+```
+## [1] 2304
+```
+
+```r
 # total NAs in steps variable
 sum(is.na(data$steps))
+```
+
+```
+## [1] 2304
+```
+
+```r
 # percentage of NAs in steps variable
 mean(is.na(data$steps))
 ```
 
+```
+## [1] 0.1311475
+```
+
 Missing values occur **only on `steps` variable** and when they occur, they occur on **all the intervals** of the concerning day :
 
-```{r}
+
+```r
 data %>% group_by(date) %>%
          summarize(NAs=sum(is.na(steps)), nrow=n()) %>%
          filter(NAs>0)
+```
+
+```
+## # A tibble: 8 x 3
+##   date         NAs  nrow
+##   <date>     <int> <int>
+## 1 2012-10-01   288   288
+## 2 2012-10-08   288   288
+## 3 2012-11-01   288   288
+## 4 2012-11-04   288   288
+## 5 2012-11-09   288   288
+## 6 2012-11-10   288   288
+## 7 2012-11-14   288   288
+## 8 2012-11-30   288   288
 ```
 
 
@@ -125,7 +166,8 @@ data %>% group_by(date) %>%
 
 Create the new dataset : join interval means to original dataset and substitute NAs with corresponding mean value
 
-```{r}
+
+```r
 data.imp <- merge(data, byitv, by="interval", sort=F) %>%  # join
             mutate(steps=ifelse(is.na(steps.x), round(steps.y), steps.x)) %>%  # substitute
             select(steps, date, interval) %>%  # select useful variables
@@ -134,7 +176,8 @@ data.imp <- merge(data, byitv, by="interval", sort=F) %>%  # join
 
 Aggregate by day and plot the result 
 
-```{r}
+
+```r
 byday.imp <- data.imp %>% group_by(date) %>% summarise(steps=sum(steps))
 
 with(byday.imp,
@@ -148,12 +191,13 @@ byday.imp.md <- median(byday.imp$steps)
 abline(v=byday.imp.mn, col="lightcoral", lwd=2)
 abline(v=byday.imp.md, col="gold", lwd=2)
 legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"), bty="n")
-
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
 **Answer : **  
-- Mean = `r round(byday.imp.mn)` (compared to `r round(byday.mn)`)    
-- Median = `r round(byday.imp.md)` (compared to `r round(byday.md)`)
+- Mean = 10766 (compared to 9354)    
+- Median = 10762 (compared to 10395)
 
 > Do these values differ from the estimates from the first part of the assignment?  
 
@@ -164,24 +208,29 @@ Values are greater Compared to the first part of the assignment, also mean and m
 
 The total daily number of steps is greater, the overall curve is "smoother" 
 
-```{r}
+
+```r
 with(byday, plot(date, steps, type="l", col="gray"))
 with(byday.imp, lines(date, steps, col="darkorange"))
 legend("top", c("original", "imputed"), lty=1, lwd=2, col=c("gray", "darkorange"), bty="n")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 First : append weekday factor using week_start=1 (to make sure Monday=1)
 
-```{r}
+
+```r
 data.imp$wday <- factor(ifelse(wday(data.imp$date, week_start=1) < 6, "weekday", "weekend"))
 ```
 
 Then : aggregate and plot result in horizontal panel using `lattice` package
 
-```{r}
+
+```r
 byitv.imp <- data.imp %>% 
              group_by(wday, interval) %>% 
              summarise(steps=mean(steps))
@@ -199,6 +248,8 @@ xyplot(steps ~ interval | wday,
                  panel.abline(h = median(y), lty = 2, col="gray")
                })
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
   
 
 Note : weekdays and weekend activity have the same overall pattern, a little bit more steps during and along the weekends
