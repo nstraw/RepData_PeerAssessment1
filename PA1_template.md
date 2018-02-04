@@ -5,6 +5,8 @@ output:
     keep_md: true
 ---
 
+# Reproducible Research: Peer Assessment 1
+
 
 
 
@@ -201,7 +203,7 @@ legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"
 
 > Do these values differ from the estimates from the first part of the assignment?  
 
-Values are greater Compared to the first part of the assignment, also mean and median get closer.
+Values are greater compared to the first part of the assignment, also mean and median get closer.
 
 
 > What is the impact of imputing missing data on the estimates of the total daily number of steps?  
