@@ -7,7 +7,10 @@ output:
 
 ```{r setoptions, echo=FALSE}
 options(scipen=20)
-#opts_chunk$set(echo=TRUE, result="asis")
+
+library(knitr) 
+
+opts_chunk$set(fig.path="figures/", result="asis")
 ```
 
 
@@ -49,7 +52,7 @@ byday <- data %>%
 
 Then : plot result using base graphics method and compute `mean` and `median` values
 
-```{r}
+```{r histogram_1}
 with(byday, 
      hist(steps, col="lightblue3", border="ivory4",
           main="Histogram of the total number of steps taken each day",
@@ -81,7 +84,7 @@ max <- byitv[which.max(byitv$steps), c("interval", "steps")]
 
 Then : plot the result using base graphics method
 
-```{r}
+```{r timeseries_1}
 with(byitv, 
      plot(interval, steps, type="l",
           main="Time-series plot : Average daily activity pattern",
@@ -134,7 +137,7 @@ data.imp <- merge(data, byitv, by="interval", sort=F) %>%  # join
 
 Aggregate by day and plot the result 
 
-```{r}
+```{r imputed_histo}
 byday.imp <- data.imp %>% group_by(date) %>% summarise(steps=sum(steps))
 
 with(byday.imp,
@@ -181,7 +184,7 @@ data.imp$wday <- factor(ifelse(wday(data.imp$date, week_start=1) < 6, "weekday",
 
 Then : aggregate and plot result in horizontal panel using `lattice` package
 
-```{r}
+```{r wdpattern}
 byitv.imp <- data.imp %>% 
              group_by(wday, interval) %>% 
              summarise(steps=mean(steps))

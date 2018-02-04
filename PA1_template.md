@@ -64,7 +64,7 @@ abline(v=byday.md, col="gold", lwd=2)
 legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"), bty="n")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](figures/histogram_1-1.png)<!-- -->
 
 **Answer : **  
 - Mean = 9354    
@@ -99,7 +99,7 @@ points(max$interval, max$steps, pch=19, col="red")
 text(max$interval+80, max$steps, labels=round(max$steps), col="red")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](figures/timeseries_1-1.png)<!-- -->
 
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?  
   
@@ -193,7 +193,7 @@ abline(v=byday.imp.md, col="gold", lwd=2)
 legend("topright", c("mean", "median"), lty=1, lwd=2, col=c("lightcoral", "gold"), bty="n")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](figures/imputed_histo-1.png)<!-- -->
 
 **Answer : **  
 - Mean = 10766 (compared to 9354)    
@@ -215,7 +215,7 @@ with(byday.imp, lines(date, steps, col="darkorange"))
 legend("top", c("original", "imputed"), lty=1, lwd=2, col=c("gray", "darkorange"), bty="n")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](figures/unnamed-chunk-8-1.png)<!-- -->
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -249,7 +249,7 @@ xyplot(steps ~ interval | wday,
                })
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](figures/wdpattern-1.png)<!-- -->
   
 
 Note : weekdays and weekend activity have the same overall pattern, a little bit more steps during and along the weekends
